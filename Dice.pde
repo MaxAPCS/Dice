@@ -1,4 +1,3 @@
-import java.awt.Point;
 import java.util.List;
 
 List<Die> dice = new ArrayList<Die>();
@@ -10,7 +9,7 @@ void setup() {
   textAlign(TOP, RIGHT);
   for (int x = Die.size/2; x <= 360 - Die.size/2; x += Die.size+12)
     for (int y = Die.size/2; y <= 360 - Die.size/2; y += Die.size+12)
-      dice.add(new Die(new Point(x,y)));
+      dice.add(new Die(x,y));
 }
 
 void draw() {
@@ -33,12 +32,12 @@ void mousePressed() {
 class Die { // this should be a record
   public static final int size = 48;
   private static final int spacing = 7;
-  public Point coords;
+  public int[] coords;
   public int sides;
   public int value;
   
-  public Die(Point coords) {
-    this.coords = coords;
+  public Die(int x, int y) {
+    this.coords = new int[]{x,y};
     this.sides = 6;
     this.roll();
   }
@@ -53,20 +52,20 @@ class Die { // this should be a record
     switch (sides) {
       case 6:
         fill(0xFFFFFFFF);
-        rect(this.coords.x-size/2, this.coords.y-size/2, size, size);
+        rect(this.coords[0]-size/2, this.coords[1]-size/2, size, size);
         fill(0);
-        if (this.value % 2 == 1) ellipse(this.coords.x, this.coords.y, 10, 10);
+        if (this.value % 2 == 1) ellipse(this.coords[0], this.coords[1], 10, 10);
         if (this.value >= 2) {
-          ellipse(this.coords.x-size/2+spacing, this.coords.y-size/2+spacing, 10, 10);
-          ellipse(this.coords.x+size/2-spacing, this.coords.y+size/2-spacing, 10, 10);
+          ellipse(this.coords[0]-size/2+spacing, this.coords[1]-size/2+spacing, 10, 10);
+          ellipse(this.coords[0]+size/2-spacing, this.coords[1]+size/2-spacing, 10, 10);
         }
         if (this.value >= 4) {
-          ellipse(this.coords.x+size/2-spacing, this.coords.y-size/2+spacing, 10, 10);
-          ellipse(this.coords.x-size/2+spacing, this.coords.y+size/2-spacing, 10, 10);
+          ellipse(this.coords[0]+size/2-spacing, this.coords[1]-size/2+spacing, 10, 10);
+          ellipse(this.coords[0]-size/2+spacing, this.coords[1]+size/2-spacing, 10, 10);
         }
         if (this.value == 6) {
-          ellipse(this.coords.x+size/2-spacing, this.coords.y, 10, 10);
-          ellipse(this.coords.x-size/2+spacing, this.coords.y, 10, 10);
+          ellipse(this.coords[0]+size/2-spacing, this.coords[1], 10, 10);
+          ellipse(this.coords[0]-size/2+spacing, this.coords[1], 10, 10);
         }
       break;
       default:
